@@ -28,7 +28,7 @@ data['quests'].append(quest)
 #status can be "active", "completed". and "claimed"
 
 character = {}
-character['icon'] = "wifi.png"
+character['icon'] = "wifi"
 character['hp'] = "80"
 character['maxhp'] = "100"
 character['level'] = 0
@@ -37,7 +37,7 @@ character ['nextLevel'] = 0
 data['characters'].append(character)
 
 character = {}
-character['icon'] = "piggy.png"
+character['icon'] = "piggy"
 character['hp'] = "100"
 character['maxhp'] = "100"
 character['level'] = 17
