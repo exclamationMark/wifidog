@@ -1,0 +1,99 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+
+<div id="wifi" style="padding-bottom: 20px">
+    router
+    <div>hp: <span class="hp"> -/- </span></div>
+    <div>xp: <span class="xp"> -/- </span></div>
+</div>
+
+<div id="piggy"  style="padding-bottom: 20px">
+    piggybank
+    <div>hp: <span class="hp"> -/- </span></div>
+    <div>xp: <span class="xp"> -/- </span></div>
+</div>
+
+<div id="feed"  style="padding-bottom: 20px">
+    feed the dog
+</div>
+
+<div id="play"  style="padding-bottom: 20px">
+    play with the dog
+</div>
+
+
+
+<script>
+var url = "http://130.233.84.131/dogfile.json";
+var characters = {}
+characters ['piggy'] = {}
+characters ['wifi'] = {}
+characters['piggy'].element = document.getElementById('piggy')
+characters['wifi'].element = document.getElementById('wifi')
+var initialized = 0;
+
+
+function loadStatus(dogdata){
+     for(i=0; i<dogdata['characters'].length; i++){
+        if (dogdata['characters'][i]['icon'] in characters){
+            loadedData = dogdata['characters'][i];
+            character = characters[loadedData['icon']];
+            character.xp = loadedData.xp;
+            character.hp = loadedData.hp;
+            character.element.getElementsByClassName('hp')[0].innerHTML = loadedData['hp'] + '/' + loadedData['maxhp'];
+            character.element.getElementsByClassName('xp')[0].innerHTML = loadedData['xp'] + '/' + loadedData['nextLevel']
+        }
+     }
+}
+
+function updateStatus(dogdata){
+    //characters
+    for(i=0; i<dogdata['characters'].length; i++){
+        if (dogdata['characters'][i]['icon'] in characters){
+            loadedData = dogdata['characters'][i];
+            character = characters[loadedData['icon']];
+            if(loadedData.hp > character.hp){
+                //WE GAINED HP!!!
+                character.element.getElementsByClassName('hp')[0].innerHTML = '<b>' + loadedData['hp'] + '</b>/' + loadedData['maxhp'];
+            }
+            if(loadedData.xp > character.xp){
+                //WE GAINED XP!!!
+                 character.element.getElementsByClassName('xp')[0].innerHTML = '<b>' + loadedData['xp'] + '</b>/' + loadedData['nextLevel']
+            }      
+            character.xp = loadedData.xp;
+            character.hp = loadedData.hp;
+        }
+    }
+}
+
+
+function fetchNewData() {
+  $.ajax({
+    url: url, 
+    success: function(data) {
+      if(initialized==0){
+            loadStatus(data);
+            initialized = 1;
+        }else{
+            updateStatus(data);
+        }
+    },
+    complete: function() {
+      setTimeout(fetchNewData, 1000);
+    }
+  });
+}
+
+// schedule the first invocation:
+setTimeout(fetchNewData, 1000);
+
+function myFunction(arr) {
+    var out = "";
+    var i;
+    for(i = 0; i < arr.length; i++) {
+        out += '<a href="' + arr[i].url + '">' + 
+        arr[i].display + '</a><br>';
+    }
+    document.getElementById("id01").innerHTML = out;
+}
+</script>
