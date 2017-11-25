@@ -45,6 +45,8 @@ character['xp'] = 386000
 character ['nextLevel'] = 500000
 data['characters'].append(character)
 
+dogdatastring = json.dumps(data)
+
 with open('dogfile.json', 'w') as outfile:
 	json.dump(data, outfile)
 
