@@ -58,25 +58,36 @@
 
 <div id="feed" class="container" data-id='1'>
   <div class="icon"><img src="feed.png"  class="icon"/></div>
-  
-  <div class="bar">
-      <p> Feed the dog </p>
-  </div>
+    
+    <div class="bar">
+    <div class="barquest">Feed the dog</div>
+    </div>
 
   <div class="bar">
       <div id='account-bar'>
-        <div class="bartitle">HP</div>
-        <div id='account-bar-level'></div>
+        <div class="bartitle"></div>
+        <div id='account-bar-level'>
+          
+          <span class="claim">
+            
+              ==== CLAIM BUTTON HERE ===
+
+          </span>
+        
+        </div>
       </div>
   </div>
 </div>
 
-<div id="play" class="container" data-id='2'>
-  <div class="icon"><img src="feed.png"  class="icon"/></div>
-  
-  <div class="bar">
-      <p> Feed the dog </p>
-  </div>
+
+
+
+<div id="play" class="container" data-id='1'>
+  <div class="icon"><img src="play.png"  class="icon"/></div>
+    
+    <div class="bar">
+    <div class="barquest">Play with the dog</div>
+    </div>
 
   <div class="bar">
       <div id='account-bar'>
@@ -126,8 +137,8 @@ function loadStatus(dogdata){
 
             //oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
-            character.element.getElementsByClassName('hp')[0].innerHTML = loadedData['hp'] + '/' + loadedData['maxhp'];
-            character.element.getElementsByClassName('xp')[0].innerHTML = loadedData['xp'] + '/' + loadedData['nextLevel']
+            //character.element.getElementsByClassName('hp')[0].innerHTML = loadedData['hp'] + '/' + loadedData['maxhp'];
+            //character.element.getElementsByClassName('xp')[0].innerHTML = loadedData['xp'] + '/' + loadedData['nextLevel']
         }
      }
      for(i=0; i<dogdata['quests'].length; i++){
@@ -143,7 +154,7 @@ function loadStatus(dogdata){
                 quest.element.style.display = "none";
                //quest.element.getElementsByClassName('claim')[0].style.display = 'block';
             }
-            quest.element.getElementsByClassName('time')[0].innerHTML = loadedData['time']
+            //quest.element.getElementsByClassName('time')[0].innerHTML = loadedData['time']
         }
      }
 }
