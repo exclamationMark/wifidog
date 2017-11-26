@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="slide.css" />
+
+    
+</head>
+
+<script> 
+    $(document).ready(function () {
+        $("#open").click(function () {
+            $("#panel").slideDown("slow", "easeInOutExpo");
+        });
+
+        $("#close").click(function () {
+            $("#panel").slideUp("slow", "easeInOutExpo");
+        });
+
+        $("#toggle a").click(function () {
+            $("#toggle a").toggle();
+        });
+    });
+</script>
+
+
+</head>
+
+<body>
+
+    
+    <div id="main">
+        <div id="toggle">
+            <a id="open">Quests</a>
+            <a id="close" style = " z-index: 1">WIFI and Money</a>
+        </div>
+        
+        <div id="panel">
+            <div id="bone"><img id="myImg" src="cartoon-bone-hi_480.png" style="margin-left:-350px;margin-top:-200px" width="100px"></div>
+            <div id="ball"><img id="m3yImg" src="flying-ball_360.jpg" style="margin-left:-350px" width="100px"></div>
+            <div id="content">
+                <div class="buttonContainer">
+                    <button id="startButton" style = " z-index: 1">Claim reward</button>
+                </div>
+            </div>
+            <canvas id="canvas" style="margin-left:-200px;margin-top:-300px; z-index: 0"></canvas>
+            </ul>
+            
+        </div>
+    </div>
+    <script src="confetti.js"></script>
+
+    
+</body>
+
+</html>
