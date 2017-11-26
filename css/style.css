@@ -1,19 +1,27 @@
+body {
+    background-position: left top;
+    background-image: url('../background.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% auto; 
+    font-family: 'Oswald';
+}
+
+
 div.container {
     display:block;
-      width:800px;
+      width:720px;
       border-style: solid;
-      border-width: 1px;
+      border-radius: 40px;
+      padding: 20px;
       overflow:auto;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
   }
 
   div.bar {
     display:block;
     font-size:20px;
     float:right;
-      border-style: solid;
-      border-width: 1px;
-      width:550px;
+      width:500px;
       height:100px;
       overflow:auto;
   }
@@ -28,12 +36,14 @@ div.container {
       height: 100%
   }
   div.bartitle{
+    font-size: 20pt;
     margin-left: 50px;
     margin-bottom: 15px;
     margin-top: 10px;
   }
 
   div.barquest{
+    font-size: 20pt;
     margin-left: 50px;
     margin-bottom: 15px;
     margin-top: 30px;
@@ -75,18 +85,40 @@ div.container {
 }
 
 #xp-bar{
-  height:10px;
-  width:75%;
+  height:16px;
+  width: 401px;
   background:#035;
-  margin:0px 0px 0px 15px;
+  margin:0px 0px 0px 50px;
   display:inline-block;
   vertical-align:middle;
+  border-style: solid;
+  border-width: 4px;
 }
 
 #xp-bar-fill{
   height:100%;
   width:0.1%;
-  background:#3af;
+  background:#ff9300;
+  font-size:12px;
+  line-height:10px;
+  text-align:right;
+}
+
+#FULL-xp-bar{
+  height:16px;
+  width:401px;
+  background:#035;
+  margin:0px 0px 0px 15px;
+  display:inline-block;
+  vertical-align:middle;
+  border-style: solid;
+  border-width: 4px;
+}
+
+#FULL-xp-bar-fill{
+  height:100%;
+  width:100%;
+  background:#ff9300;
   font-size:12px;
   line-height:10px;
   text-align:right;
@@ -157,4 +189,52 @@ div.container {
 #specs {
   display: inline-block;
   width: 100px;
+}
+
+
+
+     *{ padding:0px; margin:0px;}
+     body{padding:10px;}
+     #close{display:none;}
+     #main{border:none 2px;text-align: center;  background-color: #465e3f; width:500px;}
+     ul{list-style:none;}
+     #open, #close, #panel{padding:8px;}
+
+
+#panel, #flip {
+    padding: 2px;
+    text-align: center;
+    background-color: #465e3f;
+    border: none 2px #c3c3c3;
+}
+#open, #close, #panel{padding:8px;}
+#panel {
+    padding: 100px;
+    display: none;
+}
+
+#startButton, #canvas,#close {
+    position: relative;
+}
+
+ball, bone
+{
+    display: block; /* because <main/> is very new */
+    padding: 20px;
+    background: #eeeeee;
+}
+
+
+#startButton {
+    background-color: #ff9300;
+    border: solid;
+    border-width: 4px;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 41px;
+    cursor: pointer;
 }
