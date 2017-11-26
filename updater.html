@@ -13,12 +13,16 @@
     <div>xp: <span class="xp"> -/- </span></div>
 </div>
 
-<div id="feed"  style="padding-bottom: 20px">
+<div id="feed"  style="padding-bottom: 20px" data-id='1'>
     feed the dog
+    <div><span class="time"></span></div>
+    <div><span class="claim" style="display: none">CLAIM YOUR REWARD</span></div>
 </div>
 
-<div id="play"  style="padding-bottom: 20px">
+<div id="play"  style="padding-bottom: 20px" data-id='2'>
     play with the dog
+    <div><span class="time"></span></div>
+    <div><span class="claim" style="display: none">CLAIM YOUR REWARD</span></div>
 </div>
 
 
@@ -34,6 +38,13 @@ characters['wifi'].element = document.getElementById('wifi')
 var initialized = 0;
 
 
+var quests = {}
+quests ['Feed the dog'] = {}
+quests ['Play with the dog'] = {}
+quests ['Feed the dog'].element = document.getElementById('feed')
+quests ['Play with the dog'].element = document.getElementById('play')
+
+
 function loadStatus(dogdata){
      for(i=0; i<dogdata['characters'].length; i++){
         if (dogdata['characters'][i]['icon'] in characters){
@@ -43,6 +54,22 @@ function loadStatus(dogdata){
             character.hp = loadedData.hp;
             character.element.getElementsByClassName('hp')[0].innerHTML = loadedData['hp'] + '/' + loadedData['maxhp'];
             character.element.getElementsByClassName('xp')[0].innerHTML = loadedData['xp'] + '/' + loadedData['nextLevel']
+        }
+     }
+     for(i=0; i<dogdata['quests'].length; i++){
+        if (dogdata['quests'][i]['task'] in quests){
+            loadedData = dogdata['quests'][i];
+            quest = quests[loadedData['task']];
+            
+            quest.status = loadedData['status'];
+            if(quest.status == 'completed'){
+               quest.element.getElementsByClassName('claim')[0].style.display = 'block';
+            }
+            if(quest.status == 'claimed'){
+                quest.element.style.display = "none";
+               //quest.element.getElementsByClassName('claim')[0].style.display = 'block';
+            }
+            quest.element.getElementsByClassName('time')[0].innerHTML = loadedData['time']
         }
      }
 }
@@ -65,6 +92,20 @@ function updateStatus(dogdata){
             character.hp = loadedData.hp;
         }
     }
+
+    for(i=0; i<dogdata['quests'].length; i++){
+        if (dogdata['quests'][i]['task'] in quests){
+            loadedData = dogdata['quests'][i];
+            quest = quests[loadedData['task']];
+            
+            if(quest.status == 'active' && loadedData['status']=='completed'){
+                // A QUEST WAS COMPLETED AND AN AWARD IS AVAILABLE
+                quest.element.getElementsByClassName('claim')[0].style.display = 'block';
+            }
+
+            quest.status = loadedData['status'];
+        }
+     }
 }
 
 
@@ -97,4 +138,22 @@ function myFunction(arr) {
     }
     document.getElementById("id01").innerHTML = out;
 }
+
+
+//claiming prizes
+$('.claim').click(function(){
+    console.log("hello console");
+    var quest_id = $(this).parent().parent().data('id');
+    $(this).hide()
+    $.ajax
+    ({ 
+        url: 'claim',
+        data: {"questID": quest_id},
+        type: 'get',
+        success: function(result)
+        {
+            //success is not an option!
+        }
+    });
+});
 </script>

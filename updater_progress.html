@@ -1,0 +1,260 @@
+<html>
+<head>
+   <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/bar.js"></script>
+    </head>
+<body>
+
+
+
+<div id="pig" class="container">
+  <div class="icon"><img src="pig.png"  class="icon"/></div>
+    <div class="bar hp">
+      <div id='account-bar'>
+        <div class="bartitle">HP</div>
+        <div id='account-bar-level'></div>
+        
+        <div id='xp-bar'>
+        <div id='xp-bar-fill'>
+        <div id='xp-increase-fx'>
+          <div id='xp-increase-fx-flicker'>
+            <div class='xp-increase-glow1'></div>
+            <div class='xp-increase-glow2'></div>
+            <div class='xp-increase-glow3'></div>
+          </div>
+          <div class='xp-increase-glow2'></div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+  </div>
+  <div class="bar mp">
+      <div id='account-bar'>
+      <div class="bartitle">XP</div>
+      
+
+      </div>
+  </div>
+</div>
+
+
+<div id="wifi" class="container">
+  <div class="icon"><img src="wifi.png"  class="icon"/></div>
+  
+  <div class="bar hp">
+      <div id='account-bar'>
+        <div class="bartitle">HP</div>
+        <div id='account-bar-level'></div>
+      </div>
+  </div>
+  <div class="bar mp">
+      <div id='account-bar'>
+      <div class="bartitle">XP</div>
+      </div>
+  </div>
+</div>
+
+<div id="feed" class="container" data-id='1'>
+  <div class="icon"><img src="feed.png"  class="icon"/></div>
+    
+    <div class="bar">
+    <div class="barquest">Feed the dog</div>
+    </div>
+
+  <div class="bar">
+      <div id='account-bar'>
+        <div class="bartitle"></div>
+        <div id='account-bar-level'>
+          
+          <span class="claim">
+            
+              ==== CLAIM BUTTON HERE ===
+
+          </span>
+        
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+<div id="play" class="container" data-id='1'>
+  <div class="icon"><img src="play.png"  class="icon"/></div>
+    
+    <div class="bar">
+    <div class="barquest">Play with the dog</div>
+    </div>
+
+  <div class="bar">
+      <div id='account-bar'>
+        <div class="bartitle">HP</div>
+        <div id='account-bar-level'></div>
+      </div>
+  </div>
+</div>
+
+
+
+<script>
+//var url = "http://35.195.75.109:5000/updater";
+var url = "dogfile.json";
+var characters = {}
+characters ['piggy'] = {}
+characters ['wifi'] = {}
+characters['piggy'].element = document.getElementById('piggy')
+characters['wifi'].element = document.getElementById('wifi')
+var initialized = 0;
+
+
+var quests = {}
+quests ['Feed the dog'] = {}
+quests ['Play with the dog'] = {}
+quests ['Feed the dog'].element = document.getElementById('feed')
+quests ['Play with the dog'].element = document.getElementById('play')
+
+
+function loadStatus(dogdata){
+     for(i=0; i<dogdata['characters'].length; i++){
+        if (dogdata['characters'][i]['icon'] in characters){
+            loadedData = dogdata['characters'][i];
+            character = characters[loadedData['icon']];
+            character.xp = loadedData.xp;
+            character.hp = loadedData.hp;
+
+            //oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+            hpPercent=loadedData['hp']+"%"
+            function flicker(){
+              $("#xp-increase-fx-flicker").css("opacity", "1");
+              $("#xp-increase-fx-flicker").animate({"opacity":Math.random()}, 100, flicker);
+            }
+
+            flicker();
+            $("#xp-bar-fill").css("width",hpPercent);
+
+            //oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+            //character.element.getElementsByClassName('hp')[0].innerHTML = loadedData['hp'] + '/' + loadedData['maxhp'];
+            //character.element.getElementsByClassName('xp')[0].innerHTML = loadedData['xp'] + '/' + loadedData['nextLevel']
+        }
+     }
+     for(i=0; i<dogdata['quests'].length; i++){
+        if (dogdata['quests'][i]['task'] in quests){
+            loadedData = dogdata['quests'][i];
+            quest = quests[loadedData['task']];
+
+            quest.status = loadedData['status'];
+            if(quest.status == 'completed'){
+               quest.element.getElementsByClassName('claim')[0].style.display = 'block';
+            }
+            if(quest.status == 'claimed'){
+                quest.element.style.display = "none";
+               //quest.element.getElementsByClassName('claim')[0].style.display = 'block';
+            }
+            //quest.element.getElementsByClassName('time')[0].innerHTML = loadedData['time']
+        }
+     }
+}
+
+function updateStatus(dogdata){
+    //characters
+    for(i=0; i<dogdata['characters'].length; i++){
+        if (dogdata['characters'][i]['icon'] in characters){
+            loadedData = dogdata['characters'][i];
+            character = characters[loadedData['icon']];
+            hpPercent=loadedData['hp']+"%"
+            if(loadedData.hp > character.hp){
+              if(loadedData['icon']=='piggy'){
+                $("#xp-increase-fx").css("display","inline-block");
+                $("#xp-bar-fill").css("box-shadow",/*"0px 0px 15px #06f,*/ "-5px 0px 10px #fff inset");
+                setTimeout(function(){$("#xp-bar-fill").css("-webkit-transition","all 2s ease");
+                $("#xp-bar-fill").css("width",hpPercent);},100);
+                setTimeout(function(){$("#xp-increase-fx").fadeOut(500);$("#xp-bar-fill").css({"-webkit-transition":"all 0.5s ease","box-shadow":""});},2000);
+                  //character.element.getElementsByClassName('hp')[0].innerHTML = '<b>' + loadedData['hp'] + '</b>/' + loadedData['maxhp'];
+              }
+              if(loadedData['icon']=='wifi'){
+                $("#xp-increase-fx").css("display","inline-block");
+                $("#xp-bar-fill").css("box-shadow",/*"0px 0px 15px #06f,*/ "-5px 0px 10px #fff inset");
+                setTimeout(function(){$("#xp-bar-fill").css("-webkit-transition","all 2s ease");
+                $("#xp-bar-fill").css("width",hpPercent);},100);
+                setTimeout(function(){$("#xp-increase-fx").fadeOut(500);$("#xp-bar-fill").css({"-webkit-transition":"all 0.5s ease","box-shadow":""});},2000);
+                  //character.element.getElementsByClassName('hp')[0].innerHTML = '<b>' + loadedData['hp'] + '</b>/' + loadedData['maxhp'];
+              }
+            }
+            if(loadedData.xp > character.xp){
+                //WE GAINED XP!!!
+                 character.element.getElementsByClassName('xp')[0].innerHTML = '<b>' + loadedData['xp'] + '</b>/' + loadedData['nextLevel']
+            }
+            character.xp = loadedData.xp;
+            character.hp = loadedData.hp;
+        }
+    }
+
+    for(i=0; i<dogdata['quests'].length; i++){
+        if (dogdata['quests'][i]['task'] in quests){
+            loadedData = dogdata['quests'][i];
+            quest = quests[loadedData['task']];
+
+            if(quest.status == 'active' && loadedData['status']=='completed'){
+                // A QUEST WAS COMPLETED AND AN AWARD IS AVAILABLE
+                quest.element.getElementsByClassName('claim')[0].style.display = 'block';
+            }
+
+            quest.status = loadedData['status'];
+        }
+     }
+}
+
+
+function fetchNewData() {
+  $.ajax({
+    url: url,
+    success: function(data) {
+      if(initialized==0){
+            loadStatus(data);
+            initialized = 1;
+        }else{
+            updateStatus(data);
+        }
+    },
+    complete: function() {
+      setTimeout(fetchNewData, 1000);
+    }
+  });
+}
+
+// schedule the first invocation:
+setTimeout(fetchNewData, 1000);
+
+function myFunction(arr) {
+    var out = "";
+    var i;
+    for(i = 0; i < arr.length; i++) {
+        out += '<a href="' + arr[i].url + '">' +
+        arr[i].display + '</a><br>';
+    }
+    document.getElementById("id01").innerHTML = out;
+}
+
+
+//claiming prizes
+$('.claim').click(function(){
+    console.log("hello console");
+    var quest_id = $(this).parent().parent().data('id');
+    $(this).hide()
+    $.ajax
+    ({
+        url: 'claim',
+        data: {"questID": quest_id},
+        type: 'get',
+        success: function(result)
+        {
+            //success is not an option!
+        }
+    });
+});
+</script>
+</body>
