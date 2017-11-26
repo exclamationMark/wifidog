@@ -23,7 +23,7 @@ div.container {
     float:right;
       width:500px;
       height:100px;
-      overflow:auto;
+      overflow:hidden;
   }
   div.icon {
     float: left;
