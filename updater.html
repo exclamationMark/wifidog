@@ -122,8 +122,8 @@
 <canvas id="canvas" style="margin-left:-200px;margin-top:-1200px; z-index: 0"></canvas>
 
 <script>
-//var url = "http://35.195.75.109:5000/updater";
-var url = "dogfile.json";
+var url = "http://35.195.75.109:5000/updater";
+//var url = "dogfile.json";
 var characters = {}
 characters ['piggy'] = {}
 characters ['wifi'] = {}
@@ -139,6 +139,11 @@ quests ['Feed the dog'].element = document.getElementById('feed')
 quests ['Play with the dog'].element = document.getElementById('play')
 
 
+function flicker(){
+  $("#xp-increase-fx-flicker").css("opacity", "1");
+  $("#xp-increase-fx-flicker").animate({"opacity":Math.random()}, 100, flicker);
+}
+
 function loadStatus(dogdata){
      for(i=0; i<dogdata['characters'].length; i++){
         if (dogdata['characters'][i]['icon'] in characters){
@@ -147,16 +152,15 @@ function loadStatus(dogdata){
             character.xp = loadedData.xp;
             character.hp = loadedData.hp;
 
-            //oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
-            hpPercent=loadedData['hp']+"%"
-            function flicker(){
-              $("#xp-increase-fx-flicker").css("opacity", "1");
-              $("#xp-increase-fx-flicker").animate({"opacity":Math.random()}, 100, flicker);
+            if(loadedData['icon']=='piggy'){
+
+              //oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+              hpPercent=loadedData['xp']+"%"
+              
+              flicker();
+              $("#xp-bar-fill").css("width",hpPercent);
+           
             }
-
-            flicker();
-            $("#xp-bar-fill").css("width",hpPercent);
-
             //oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
             //character.element.getElementsByClassName('hp')[0].innerHTML = loadedData['hp'] + '/' + loadedData['maxhp'];
@@ -187,28 +191,22 @@ function updateStatus(dogdata){
         if (dogdata['characters'][i]['icon'] in characters){
             loadedData = dogdata['characters'][i];
             character = characters[loadedData['icon']];
-            hpPercent=loadedData['hp']+"%"
+            
             if(loadedData.hp > character.hp){
-              if(loadedData['icon']=='piggy'){
-                $("#xp-increase-fx").css("display","inline-block");
-                $("#xp-bar-fill").css("box-shadow",/*"0px 0px 15px #06f,*/ "-5px 0px 10px #fff inset");
-                setTimeout(function(){$("#xp-bar-fill").css("-webkit-transition","all 2s ease");
-                $("#xp-bar-fill").css("width",hpPercent);},100);
-                setTimeout(function(){$("#xp-increase-fx").fadeOut(500);$("#xp-bar-fill").css({"-webkit-transition":"all 0.5s ease","box-shadow":""});},2000);
-                  //character.element.getElementsByClassName('hp')[0].innerHTML = '<b>' + loadedData['hp'] + '</b>/' + loadedData['maxhp'];
-              }
-              if(loadedData['icon']=='wifi'){
-                $("#xp-increase-fx").css("display","inline-block");
-                $("#xp-bar-fill").css("box-shadow",/*"0px 0px 15px #06f,*/ "-5px 0px 10px #fff inset");
-                setTimeout(function(){$("#xp-bar-fill").css("-webkit-transition","all 2s ease");
-                $("#xp-bar-fill").css("width",hpPercent);},100);
-                setTimeout(function(){$("#xp-increase-fx").fadeOut(500);$("#xp-bar-fill").css({"-webkit-transition":"all 0.5s ease","box-shadow":""});},2000);
-                  //character.element.getElementsByClassName('hp')[0].innerHTML = '<b>' + loadedData['hp'] + '</b>/' + loadedData['maxhp'];
-              }
+              
             }
-            if(loadedData.xp > character.xp){
+            if(loadedData.xp > character.xp && loadedData['icon']=='piggy'){
+
                 //WE GAINED XP!!!
-                 character.element.getElementsByClassName('xp')[0].innerHTML = '<b>' + loadedData['xp'] + '</b>/' + loadedData['nextLevel']
+                hpPercent=loadedData['xp']+"%"
+
+                $("#xp-increase-fx").css("display","inline-block");
+                $("#xp-bar-fill").css("box-shadow",/*"0px 0px 15px #06f,*/ "-5px 0px 10px #fff inset");
+                setTimeout(function(){$("#xp-bar-fill").css("-webkit-transition","all 2s ease");
+                $("#xp-bar-fill").css("width",hpPercent);},100);
+                setTimeout(function(){$("#xp-increase-fx").fadeOut(500);$("#xp-bar-fill").css({"-webkit-transition":"all 0.5s ease","box-shadow":""});},2000);
+                  //character.element.getElementsByClassName('hp')[0].innerHTML = '<b>' + loadedData['hp'] + '</b>/' + loadedData['maxhp'];
+                 //character.element.getElementsByClassName('xp')[0].innerHTML = '<b>' + loadedData['xp'] + '</b>/' + loadedData['nextLevel']
             }
             character.xp = loadedData.xp;
             character.hp = loadedData.hp;
