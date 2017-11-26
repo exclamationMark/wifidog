@@ -4,7 +4,9 @@ div.container {
       border-style: solid;
       border-width: 1px;
       overflow:auto;
+      margin-bottom: 50px;
   }
+
   div.bar {
     display:block;
     float:right;
